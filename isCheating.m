@@ -13,28 +13,38 @@ numNeg = 0;
 numRepeats = 0;
 result = false;
 
+% Local vars
+minFN = false;
+maxFP = false;
+
 % Simulation
 while true
     % Flip Coin
-    if rand() >= pSubject
+    if rand() <= pSubject
         numPos = numPos + 1;        
     else
         numNeg = numNeg + 1;
     end
     numRepeats = numRepeats + 1;
     
-    % Check if positive
-    result = binocdf(numPos - 1, numRepeats, pFair, 'upper') <= targetFP;
-    if result
+    % Check if in the top 5% of normal players
+    maxFP = binocdf(numPos - 1, numRepeats, pFair, 'upper') <= targetFP;
+    
+    % If in top 5% assume cheating
+    if maxFP
+        result = true;
         return
     end
 
-    % Check if negative
-    result = binocdf(numPos, numRepeats, pCheat) <= targetFN;
-    if result
+    % Check if in the bottom 20% of cheating players
+    minFN = binocdf(numPos, numRepeats, pCheat) <= targetFN;
+    
+    % If in top bottom 20% assume innocent
+    if minFN
         result = false;
         return
     end
+
 end
 
 end

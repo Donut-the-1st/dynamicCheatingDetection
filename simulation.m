@@ -1,6 +1,6 @@
 % Parameters
 pFair     = 0.5;
-pCheat    = 0.55;
+pCheat    = 0.75;
 targetFP  = 0.05;
 targetFN  = 0.20;
 numTests  = 10000;
@@ -27,6 +27,7 @@ nonCheat.Normalization = 'probability';
 cheats.Normalization = 'probability';
 nonCheat.BinWidth = 1;
 cheats.BinWidth = 1;
+legend()
 hold off
 
 numFalseAccused = sum(results(1:numCheats, 1));
